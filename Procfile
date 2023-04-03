@@ -1,1 +1,1 @@
-worker: python3 peredelanoconfbot.py
+worker: python3 bot.py
