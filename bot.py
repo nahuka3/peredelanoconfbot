@@ -8,7 +8,7 @@ API_TOKEN = os.getenv('API_TOKEN_TELEGRAM_BOT')
 
 bot = telebot.TeleBot(API_TOKEN)
 
-welcome_message = 'Добро пожаловать!'
+welcome_message = 'Добро пожаловать!!'
 
 @bot.message_handler(commands=['start'])
 def start(message):
