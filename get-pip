@@ -1,0 +1,15 @@
+import sqlite3
+
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS warnings (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    warnings_count INTEGER DEFAULT 0
+)
+""")
+
+conn.commit()
+conn.close()

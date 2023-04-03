@@ -1,0 +1,49 @@
+import sqlite3
+import telebot
+from telebot.types import Message
+from typing import Dict, List, Optional
+
+# Создание базы данных SQLite
+conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
+
+# Создание таблицы для хранения предупреждений пользователей
+cursor.execute('''CREATE TABLE IF NOT EXISTS warnings
+                  (user_id INTEGER PRIMARY KEY, strikes INTEGER DEFAULT 0)''')
+
+# Настройка бота
+bot = telebot.TeleBot('5900135653:AAFFvfYNTdAUwa91oSHDxCIvbBpdPaFaGuU')
+
+# ID администраторов чата
+admin_ids = [123456789, 987654321]
+
+# Список ников пользователей, голосовые и видео сообщения которых не нужно удалять
+allowed_users = ['Илахов', 'филлпакарт']
+
+# Текст сообщения при удалении голосовых и видео сообщений
+delete_media_message = 'Надеюсь, ты не сильно старался..'
+
+# Функция для отправки сообщения в общий чат
+def send_message_to_chat(chat_id: int, text: str) -> None:
+    bot.send_message(chat_id, text)
+
+# Функция для удаления сообщения из чата
+def delete_message(chat_id: int, message_id: int) -> None:
+    bot.delete_message(chat_id, message_id)
+
+# Функция для проверки, является ли пользователь администратором чата
+def is_admin(user_id: int) -> bool:
+    return user_id in admin_ids
+
+# Функция для удаления сообщения о вступлении нового участника
+@bot.message_handler(content_types=['new_chat_members'])
+def handle_new_chat_member(message: Message) -> None:
+    delete_message(message.chat.id, message.message_id)
+
+# Функция для удаления голосовых и видео сообщений
+@bot.message_handler(content_types=['voice', 'video'])
+def handle_voice_video_message(message: Message) -> None:
+    # Проверяем, что отправитель не в списке пользователей, чьи сообщения не нужно удалять
+    if message.from_user.username not in allowed_users:
+        delete_message(message.chat.id, message.message_id)
+        send_message_to_chat(message.chat.id, delete_media_message)
