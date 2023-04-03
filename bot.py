@@ -20,7 +20,7 @@ def set_welcome_message(message):
         admins = [admin.user.id for admin in bot.get_chat_administrators(message.chat.id)]
         if message.from_user.id in admins:
             global welcome_message
-            welcome_message = message.text[12:]
+            welcome_message = " ".join(message.text.split()[1:])
             bot.reply_to(message, f'Приветственное сообщение установлено: {welcome_message}')
         else:
             bot.reply_to(message, 'Вы должны быть администратором, чтобы изменить приветственное сообщение.')
