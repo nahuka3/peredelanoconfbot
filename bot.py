@@ -2,9 +2,13 @@ import telebot
 from telebot import types
 from dotenv import load_dotenv
 import os
+import logging
 
 load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN_TELEGRAM_BOT')
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -36,5 +40,5 @@ def delete_voice_video_messages(message):
     bot.reply_to(message, 'Надеюсь, ты не сильно старался..')
 
 if __name__ == '__main__':
+    logger.info('Бот запущен')
     bot.polling(none_stop=True)
-    
