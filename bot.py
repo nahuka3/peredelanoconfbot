@@ -17,6 +17,7 @@ welcome_message = 'Добро пожаловать!!'
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id, 'Я готов к работе!')
+     logger.info('Бот запущен')
 
 @bot.message_handler(commands=['set_wlc_msg'])
 def set_welcome_message(message):
