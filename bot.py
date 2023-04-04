@@ -27,7 +27,8 @@ def set_welcome_message(message):
     if message.chat.type != 'private':
         admins = [admin.user.id for admin in bot.get_chat_administrators(message.chat.id)]
         if message.from_user.id in admins:
-            welcome_messages[message.chat.id] = message.text
+            welcome_text = ' '.join(message.text.split(' ')[1:]) # Get the text after the command
+            welcome_messages[message.chat.id] = welcome_text
             send_message(message.chat.id, f'Приветственное сообщение установлено: {welcome_messages[message.chat.id]}')
         else:
             send_message(message.chat.id, 'Вы должны быть администратором, чтобы изменить приветственное сообщение.')
