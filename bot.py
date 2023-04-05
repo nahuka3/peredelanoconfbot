@@ -30,16 +30,19 @@ def set_welcome_message(message):
             welcome_text = ' '.join(message.text.split(' ')[1:]) # Get the text after the command
             welcome_messages[message.chat.id] = welcome_text
             send_message(message.chat.id, f'Приветственное сообщение установлено: {welcome_messages[message.chat.id]}')
+            bot.delete_message(message.chat.id, message.message_id) # Delete the set_wlc_msg command message
         else:
             send_message(message.chat.id, 'Вы должны быть администратором, чтобы изменить приветственное сообщение.')
 
 @bot.message_handler(content_types=['new_chat_members'])
 def new_chat_member(message):
     bot.delete_message(message.chat.id, message.message_id)
+    new_member = message.new_chat_members[0]
+    username = new_member.username if new_member.username else new_member.first_name
     if message.chat.id in welcome_messages:
-        send_message(message.chat.id, welcome_messages[message.chat.id])
+        send_message(message.chat.id, f"{welcome_messages[message.chat.id]} @{username}")
     else:
-        send_message(message.chat.id, 'Добро пожаловать!!')
+        send_message(message.chat.id, f"Добро пожаловать, @{username}!")
 
 @bot.message_handler(content_types=['voice', 'video'])
 def delete_voice_video_messages(message):
