@@ -72,7 +72,7 @@ def new_chat_member(message):
             logger.warning(f"Unable to delete last welcome message: {e}")
 
     # Send new welcome message
-    if message.chat.id in welcome_messages
+    if message.chat.id in welcome_messages:
         new_welcome_message_id = send_message(message.chat.id, f"{welcome_messages[message.chat.id]} @{username}")
     else:
         new_welcome_message_id = send_message(message.chat.id, f"Добро пожаловать, @{username}!")
