@@ -77,4 +77,6 @@ def new_chat_member(message):
     else:
         new_welcome_message_id = send_message(message.chat.id, f"Добро пожаловать, @{username}!")
 
+if __name__ == "__main__":
+    bot.polling(none_stop=True)
    
