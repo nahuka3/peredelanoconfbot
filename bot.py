@@ -77,17 +77,4 @@ def new_chat_member(message):
     else:
         new_welcome_message_id = send_message(message.chat.id, f"Добро пожаловать, @{username}!")
 
-    # Save new welcome message ID
-    last_welcome_messages[message.chat.id] = new_welcome_message_id
-
-@bot.message_handler(content_types=['voice', 'video'])
-def delete_voice_video_messages(message):
-    if not is_bot_active.get(message.chat.id, True):
-        return
-
-    bot.delete_message(message.chat.id, message.message_id)
-    send_message(message.chat.id, 'Надеюсь, ты не сильно старался..')
-
-if __name__ == '__main__':
-    logger.info('Бот запущен')
-    bot.polling(none_stop=True)
+   
